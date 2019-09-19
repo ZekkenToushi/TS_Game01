@@ -11,17 +11,28 @@ Player::Player()
 
 Player::~Player()
 {
+	//g_goMgr.DeleteGameObject(this);
 }
 
 void Player::Update()
 {
-	//ワールド行列の更新。
-	m_model.UpdateWorldMatrix(CVector3::Zero(), CQuaternion::Identity(), CVector3::One());
+	
+	Move();
 }
-void Player::Draw()
+void Player::Render()
 {
 	m_model.Draw(
 		g_camera3D.GetViewMatrix(), 
 		g_camera3D.GetProjectionMatrix()
 	);
+}
+
+void Player::Move()
+{
+
+	/*m_position.y += Pad(0).GetLStickYF()*2.0f;
+	m_position.x += Pad(0).GetLStickXF()*2.0f;*/
+
+	//ワールド行列の更新。
+	m_model.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
 }
