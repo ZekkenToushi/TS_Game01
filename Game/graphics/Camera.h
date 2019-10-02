@@ -1,5 +1,7 @@
 #pragma once
+#include "GameObjectManager.h"
 class Camera
+	: public IGameObject
 {
 public:
 	/*!

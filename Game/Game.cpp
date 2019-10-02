@@ -12,14 +12,20 @@ Game::Game()
 
 	//物理エンジンの更新。
 	g_physics.Update();
+	//カメラを初期化。
+	g_camera3D.SetFar(50000.0f);
+	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
+	g_camera3D.SetPosition({ 0.0f, 100.0f, 300.0f });
 	
+	
+	//フィールドの生成。
+	m_field1 = NewGO<Field_1>();
 	//プレイヤーの更新。
 	m_player = NewGO<Player>();
-	//m_player->Update();
-	//m_player->Draw();
+	//プレイ用のカメラ更新。
+	m_tsCamera = NewGO<tsCamera>();
+
 	
-	//カメラの更新。
-	g_camera3D.Update();
 }
 
 
@@ -30,6 +36,7 @@ Game::~Game()
 
 void Game::Update()
 {
+	
 }
 
 void Game::Render()

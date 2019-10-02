@@ -111,6 +111,8 @@
     <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="IGameObject.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Field_1.cpp" />
+    <ClCompile Include="tsCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -199,10 +201,13 @@
     <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="IGameObject.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Field_1.h" />
+    <ClInclude Include="tsCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
+    <MeshContentTask Include="Assets\modelData\Field1.fbx" />
   </ItemGroup>
 </Project>

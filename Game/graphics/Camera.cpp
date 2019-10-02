@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Camera.h"
-
+#include "Game.h"
 Camera g_camera3D;		//3DƒJƒƒ‰B
 
 void Camera::Update()
@@ -18,4 +18,5 @@ void Camera::Update()
 		m_near,
 		m_far
 	);
+	
 }
