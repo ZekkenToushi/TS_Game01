@@ -140,17 +140,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	);
 
 
-	//ライト用。
-	auto deviceContext = g_graphicsEngine->GetD3DDeviceContext();
-	//ライト用の定数バッファを更新。
-	deviceContext->UpdateSubresource(m_lightCb, 0, nullptr, &m_dirLight, 0, 0);
-	//定数バッファをシェーダースロットに設定。
-	deviceContext->VSSetConstantBuffers(0, 1, &m_cb);
-	deviceContext->PSSetConstantBuffers(0, 1, &m_lightCb);
-	//サンプラステートを設定する。
-	deviceContext->PSSetSamplers(0, 1, &m_samplerState);
-	//アルベドテクスチャを設定する。
-	deviceContext->PSSetShaderResources(0, 1, &m_albedoTextureSRV);
+
 	
 	
 }

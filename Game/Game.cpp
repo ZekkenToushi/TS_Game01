@@ -24,8 +24,8 @@ Game::Game()
 	m_player = NewGO<Player>();
 	//プレイ用のカメラ更新。
 	m_tsCamera = NewGO<tsCamera>();
-
-	
+	//ライトの更新。
+	m_light = NewGO<Light>();
 }
 
 
@@ -36,7 +36,7 @@ Game::~Game()
 
 void Game::Update()
 {
-	
+	//constant buffer
 }
 
 void Game::Render()

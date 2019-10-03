@@ -57,10 +57,27 @@ struct VSInputNmTxWeights
 /*!
  *@brief	ライト用の定数バッファ。
  */
-cbuffer LightCb : register(b0) {
-	float3 dligDirection;
+cbuffer LightCb : register(b1) {
 	float4 dligColor;
+	float3 dligDirection;
 };
+///*!
+// *@brief	ディレクションライト。
+// */
+//struct SDirectionLight {
+//	float4 color;
+//	float3 direction;
+///*!
+//};
+// *@brief	ライト用の定数バッファ。
+// */
+//cbuffer LightCb : register(b1) {
+//	SDirectionLight		directionLight;		//ディレクションライト。
+//	float3				eyePos;				//カメラの視点。
+//	float				specPow;			//スペキュラライトの絞り。
+//	float3              Kankyoukou;         //環境光。
+//};
+
 /*!
  * @brief	ピクセルシェーダーの入力。
  */
@@ -149,14 +166,15 @@ PSInput VSMainSkin( VSInputNmTxWeights In )
 float4 PSMain( PSInput In ) : SV_Target0
 {
 	//albedoテクスチャからカラーをフェッチする。
-	float4 albedoColor = g_albedoTexture.Sample(g_sampler, In.TexCoord);
+	float4 albedoColor = albedoTexture.Sample(Sampler, In.TexCoord);
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	
+	//内積で光の強さを割り出す。
 	lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection)) * dligColor;
-	
+	//環境光。
+	//lig += Kankyoukou;
+	//合成。
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	finalColor.xyz = albedoColor.xyz * lig;
 	return finalColor;
-	return albedoTexture.Sample(Sampler, In.TexCoord);
 }

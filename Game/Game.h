@@ -1,8 +1,9 @@
 #pragma once
 #include"IGameObject.h"
-#include "Player.h"
+#include"Player.h"
 #include"Field_1.h"
-#include "tsCamera.h"
+#include"tsCamera.h"
+#include"Light.h"
 class Game: public IGameObject
 {
 public:
@@ -21,6 +22,6 @@ private:
 	static Game* m_instance;
 	
 	Field_1* m_field1 = nullptr;
-	
+	Light* m_light = nullptr;
 };
 

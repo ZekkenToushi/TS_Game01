@@ -113,6 +113,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Field_1.cpp" />
     <ClCompile Include="tsCamera.cpp" />
+    <ClCompile Include="LightConstantBuffer.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Instance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -203,6 +206,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Field_1.h" />
     <ClInclude Include="tsCamera.h" />
+    <ClInclude Include="LightConstantBuffer.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Instance.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
