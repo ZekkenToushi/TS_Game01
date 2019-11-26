@@ -26,6 +26,8 @@ Game::Game()
 	m_tsCamera = NewGO<tsCamera>();
 	//ライトの更新。
 	m_light = NewGO<Light>();
+	//スライムジェネレーターの更新。
+	m_slaveganerator = NewGO<SlaveGenerator>();
 }
 
 

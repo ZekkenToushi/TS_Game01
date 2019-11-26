@@ -116,6 +116,10 @@
     <ClCompile Include="LightConstantBuffer.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Instance.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="Slave.cpp" />
+    <ClCompile Include="SlaveGenerator.cpp" />
+    <ClCompile Include="Tracerow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -209,11 +213,16 @@
     <ClInclude Include="LightConstantBuffer.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Instance.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="SlaveGenerator.h" />
+    <ClInclude Include="Slave.h" />
+    <ClInclude Include="Tracerow.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
       <Filter>Assets\modelData</Filter>
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\Field1.fbx" />
+    <MeshContentTask Include="Assets\modelData\suraimu01.FBX" />
   </ItemGroup>
 </Project>

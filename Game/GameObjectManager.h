@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <list>
 #include "IGameObject.h"
 
 class GameObjectManager
@@ -50,7 +51,7 @@ public:
 	static GameObjectManager& GetInstance();
 private:
 	GameObjectManager();
-	std::vector< IGameObject* > m_goList;		//ゲームオブジェクトのリスト。
+	std::list< IGameObject* > m_goList;		//ゲームオブジェクトのリスト。
 	//シングルトン。
 	static GameObjectManager m_instance;
 };

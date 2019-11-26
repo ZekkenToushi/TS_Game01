@@ -2,6 +2,8 @@
 #include"IGameObject.h"
 #include"Player.h"
 #include"Field_1.h"
+//#include"Slave.h"
+#include "SlaveGenerator.h"
 #include"tsCamera.h"
 #include"Light.h"
 class Game: public IGameObject
@@ -17,6 +19,8 @@ public:
 	static Game* GetInstance();
 	Player* m_player = nullptr;
 	tsCamera* m_tsCamera = nullptr;
+	//Slave* m_slave = nullptr;
+	SlaveGenerator* m_slaveganerator = nullptr;
 private:
 	//シングルトン。
 	static Game* m_instance;
