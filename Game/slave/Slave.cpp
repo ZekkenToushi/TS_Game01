@@ -11,8 +11,8 @@ Slave::Slave()
 	CVector3 pos = m_position;
 	
 	m_charaCon.Init(
-		50.0,			//半径。 
-		50.0f,			//高さ。
+		30.0,			//半径。 
+		20.0f,			//高さ。
 		pos		//初期位置。
 	);
 	

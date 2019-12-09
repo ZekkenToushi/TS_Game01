@@ -30,6 +30,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//GameObjectManagerの更新。
 		GameObjectManager::GetInstance().Update();
 
+		//物理エンジン系更新。
+		g_physics.Update();
 		//Debug用当たり判定可視化。
 		g_physics.DebugWireDraw();
 
