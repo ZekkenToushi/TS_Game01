@@ -51,6 +51,15 @@ public:
 	static GameObjectManager& GetInstance();
 private:
 	GameObjectManager();
+	/*!
+	 *@brief	ゲームオブジェクト削除のヘルパー関数。
+	 * NewGOを使用して作成したオブジェクトは必ずDeleteGOを実行するように。
+	 *@param[in]	go		削除するゲームオブジェクト。
+	 */
+	static inline void DeleteGO(IGameObject* go)
+	{
+		GameObjectManager().DeleteGameObject(go);
+	}
 	std::list< IGameObject* > m_goList;		//ゲームオブジェクトのリスト。
 	//シングルトン。
 	static GameObjectManager m_instance;

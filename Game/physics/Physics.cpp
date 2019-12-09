@@ -47,6 +47,10 @@ void PhysicsWorld::Init()
 		);
 
 	dynamicWorld->setGravity(btVector3(0, -10, 0));
+	//“–‚½‚è”»’è‰ÂŽ‹‰»B
+	debugwirefeame.Prepare();
+	
+	dynamicWorld->setDebugDrawer(&debugwirefeame);
 }
 void PhysicsWorld::Update()
 {
@@ -59,4 +63,9 @@ void PhysicsWorld::AddRigidBody(RigidBody& rb)
 void PhysicsWorld::RemoveRigidBody(RigidBody& rb)
 {
 	dynamicWorld->removeRigidBody(rb.GetBody());
+}
+
+void PhysicsWorld::DebugWireDraw()
+{
+	dynamicWorld->debugDrawWorld();
 }

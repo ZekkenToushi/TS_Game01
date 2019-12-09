@@ -34,6 +34,8 @@ Game::Game()
 Game::~Game()
 {
 	m_instance = nullptr;
+
+	//DeleteGO(m_field1);
 }
 
 void Game::Update()
@@ -43,6 +45,49 @@ void Game::Update()
 
 void Game::Render()
 {
+	/*
+	//レンダリングモード。
+	EnRenderMode renderMode = enRenderMode_Normal;
+	//描画開始。
+	g_graphicsEngine->BegineRender();
+
+	///////////////////////////////////////////////
+	//まずはオフスクリーンレンダリング
+	///////////////////////////////////////////////
+	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	//現在のレンダリングターゲットをバックアップしておく。
+	ID3D11RenderTargetView* oldRenderTargetView;
+	ID3D11DepthStencilView* oldDepthStencilView;
+	d3dDeviceContext->OMGetRenderTargets(1, &oldRenderTargetView, &oldDepthStencilView);
+	//レンダリングターゲットを切り替える。
+	ID3D11RenderTargetView* rts[] = {
+		//m_renderTargetView
+		m_renderTarget.GetRenderTargetView()
+	};
+	d3dDeviceContext->OMSetRenderTargets(1, rts, m_renderTarget.GetDepthStensilView());
+	//レンダリングターゲットをクリア。
+	float clearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; //red,green,blue,alpha
+	//d3dDeviceContext->ClearRenderTargetView(m_renderTargetView, clearColor);
+	//d3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_renderTarget.ClearRenderTarget(clearColor);
+	
+
+
+	///////////////////////////////////////////////
+	//ここからオンスクリーンレンダリング。
+	///////////////////////////////////////////////
+	
+	
+	//レンダリングターゲットを元に戻す。
+	d3dDeviceContext->OMSetRenderTargets(1, &oldRenderTargetView, oldDepthStencilView);
+	//レンダリングターゲットとデプスステンシルの参照カウンタを下す。
+	oldRenderTargetView->Release();
+	oldDepthStencilView->Release();
+
+
+	//描画終了。
+	g_graphicsEngine->EndRender();
+	*/
 }
 
 Game * Game::GetInstance()

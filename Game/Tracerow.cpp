@@ -7,7 +7,7 @@ Tracerow::Tracerow()
 	//実験用スライム表示
 	//cmoファイルの読み込み。
 	m_model.Init(L"Assets/modelData/suraimu01.cmo");
-	Reservation;
+	
 
 }
 
@@ -19,7 +19,7 @@ Tracerow::~Tracerow()
 void Tracerow::Update()
 {
 	//自分のNumによって自分のポジションを決定する。
-	//調整用ベクトル
+	//調整用ベクトルとりあえず
 	CVector3 zure = CVector3::Zero();
 	if (m_Num == 0) {
 		zure.z = -100.0f;
@@ -51,7 +51,6 @@ void Tracerow::Update()
 		m_position = m_targetposition + zure;
 	}
 	//実験用スライム表示
-	
 	//ワールド行列の更新。
 	m_model.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
 

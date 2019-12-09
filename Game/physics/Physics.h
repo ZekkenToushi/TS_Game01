@@ -1,5 +1,5 @@
 #pragma once
-
+#include "DebugWireframe.h"
 
 class RigidBody;
 
@@ -10,6 +10,7 @@ class PhysicsWorld
 	btBroadphaseInterface*					overlappingPairCache = nullptr;	//!<ブロードフェーズ。衝突判定の枝切り。
 	btSequentialImpulseConstraintSolver*	constraintSolver = nullptr;		//!<コンストレイントソルバー。拘束条件の解決処理。
 	btDiscreteDynamicsWorld*				dynamicWorld = nullptr;			//!<ワールド。
+	DebugWireframe							debugwirefeame;
 public:
 	~PhysicsWorld();
 	void Init();
@@ -47,6 +48,8 @@ public:
 	{
 		dynamicWorld->contactTest(colObj, resultCallback);
 	}
+	//当たり判定可視化。
+	void DebugWireDraw();
 };
 
 extern PhysicsWorld g_physics;

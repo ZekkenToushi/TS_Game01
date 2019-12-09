@@ -22,14 +22,35 @@ public:
 		m_targetposition = position;
 	}
 	/// <summary>
-	/// このポイントに入れるかどうかの予約結果を返す
+	/// このポイントに向かって進んでる奴がいるかどうかの結果を返す。
 	/// </summary>
 	/// <returns></returns>
 	bool GetReservation(){
 		return Reservation;
 	}
 	/// <summary>
-	/// このポイントのポジションを返す
+	/// ポイントに予約する。現在向かっています。
+	/// </summary>
+	/// <param name="yoyaku"></param>
+	void SetReservation(bool yoyaku) {
+		Reservation = yoyaku;
+	}
+	/// <summary>
+	/// すでに先約があるかどうか確認。
+	/// </summary>
+	/// <returns></returns>
+	bool GetStay() {
+		return Stay;
+	}
+	/// <summary>
+	/// 着席しました。すでにいると主張するため。
+	/// </summary>
+	/// <param name="posiGetdaze"></param>
+	void SetStay(bool posiGetdaze) {
+		Stay = posiGetdaze;
+	}
+	/// <summary>
+	/// このポイントのポジションを返す。
 	/// </summary>
 	/// <returns></returns>
 	CVector3 Getposition() {
@@ -40,8 +61,9 @@ private:
 	int m_Num;//ポイントナンバー。
 	CVector3 m_position;//自分のポジション。
 	CVector3 m_targetposition;//追従するターゲット（プレイヤー）ポジション。
-	bool Reservation;//このポイントにSlaveが向かっている予約。
-	//テストよう
+	bool Reservation = false;//このポイントにSlaveが向かっている予約。
+	bool Stay = false;//このポイントにいる。
+	//テストよう表示スライム。
 	SkinModel m_model;								//スキンモデル。
 };
 

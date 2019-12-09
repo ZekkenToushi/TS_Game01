@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "level/Level.h"
 #include"GameObjectManager.h"
+#include "physics/Physics.h"
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
@@ -28,7 +29,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 		//GameObjectManagerの更新。
 		GameObjectManager::GetInstance().Update();
-		
+
+		//Debug用当たり判定可視化。
+		g_physics.DebugWireDraw();
+
 		//描画終了。
 		g_graphicsEngine->EndRender();
 	}

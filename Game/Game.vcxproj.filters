@@ -75,9 +75,6 @@
     <ClCompile Include="HID\Pad.cpp">
       <Filter>HID</Filter>
     </ClCompile>
-    <ClCompile Include="system\system.cpp">
-      <Filter>system</Filter>
-    </ClCompile>
     <ClCompile Include="graphics\Camera.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -113,13 +110,17 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Field_1.cpp" />
     <ClCompile Include="tsCamera.cpp" />
-    <ClCompile Include="LightConstantBuffer.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Instance.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
-    <ClCompile Include="Slave.cpp" />
-    <ClCompile Include="SlaveGenerator.cpp" />
     <ClCompile Include="Tracerow.cpp" />
+    <ClCompile Include="DebugWireframe.cpp" />
+    <ClCompile Include="Light\Light.cpp" />
+    <ClCompile Include="Light\LightConstantBuffer.cpp" />
+    <ClCompile Include="system\system.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="slave\SlaveGenerator.cpp" />
+    <ClCompile Include="slave\Slave.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -167,9 +168,6 @@
     <ClInclude Include="HID\Pad.h">
       <Filter>HID</Filter>
     </ClInclude>
-    <ClInclude Include="system\system.h">
-      <Filter>system</Filter>
-    </ClInclude>
     <ClInclude Include="graphics\Camera.h">
       <Filter>graphics</Filter>
     </ClInclude>
@@ -210,13 +208,17 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Field_1.h" />
     <ClInclude Include="tsCamera.h" />
-    <ClInclude Include="LightConstantBuffer.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="Instance.h" />
     <ClInclude Include="RenderTarget.h" />
-    <ClInclude Include="SlaveGenerator.h" />
-    <ClInclude Include="Slave.h" />
     <ClInclude Include="Tracerow.h" />
+    <ClInclude Include="DebugWireframe.h" />
+    <ClInclude Include="Light\Light.h" />
+    <ClInclude Include="Light\LightConstantBuffer.h" />
+    <ClInclude Include="system\system.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="slave\SlaveGenerator.h" />
+    <ClInclude Include="slave\Slave.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

@@ -9,7 +9,7 @@ Player::Player()
 
 	//キャラクターコントローラーを初期化。
 	m_charaCon.Init(
-		20.0,			//半径。 
+		50.0,			//半径。 
 		50.0f,			//高さ。
 		m_position	//初期位置。
 	);
@@ -25,7 +25,13 @@ Player::~Player()
 void Player::Update()
 {
 	Move();
+	Rotation();
 	Tracerowset();
+	
+
+	//ワールド行列の更新。
+	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
+	
 }
 void Player::Render()
 {
@@ -50,9 +56,6 @@ void Player::Move()
 	//アナログスティックの入力量を取得、ポジションへの適用。
 	m_speed = CameraForward * g_pad->GetLStickYF()*1200.0f;
 	m_speed += CameraRightd * g_pad->GetLStickXF()*1200.0f;
-	////プレイヤー移動。
-	//m_speed.z = g_pad->GetLStickYF()*1200.0f;
-	//m_speed.x = g_pad->GetLStickXF()*1200.0f;
 
 	//一時的重力
 	m_speed.y -= 1000.00f;
@@ -62,17 +65,36 @@ void Player::Move()
 	if (g_pad->GetLStickXF() == 0.0f) {
 
 		m_speed.x = 0.0f;
+	}
+	if (g_pad->GetLStickYF() == 0.0f) {
 		m_speed.z = 0.0f;
 	}
-	
 	//ジャンプ。
 	if (g_pad->IsPress(enButtonB)) {
 		m_speed.y += 2000.0f;
 	}
 
 	m_position = m_charaCon.Execute(1.0f / 60, m_speed);
-	//ワールド行列の更新。
-	m_model.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
+	
+}
+
+void Player::Rotation()
+{
+	//下準備。
+	float Rot = atan2(m_playerforward, m_playerside);
+	CQuaternion qRot;
+	qRot.SetRotation(CVector3::AxisY(), Rot);
+
+	//入力があれば
+	if (m_speed.x != 0.0f || m_speed.z != 0.0f)
+	{
+		//回転を適用。
+		m_rotation = qRot;
+		//進行方向保存。
+		m_playerforward = m_speed.x;
+		m_playerside = m_speed.z;
+	}
+	
 }
 
 void Player::Tracerowset()
