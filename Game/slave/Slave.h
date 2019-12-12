@@ -3,9 +3,9 @@
 #include "character/CharacterController.h"
 
 enum SuraimuState {
-	Taiki,//その場に待機。
-	Mukau,//プレイヤーに向かう。
-	Tuizyuu//プレイヤーに追従。
+	Taiki,//その場に待機。0
+	Mukau,//プレイヤー(列)に向かう。1
+	Tuizyuu//プレイヤーに追従。2
 
 };
 class Slave : public IGameObject
@@ -17,9 +17,31 @@ public:
 	void Render()override;
 	
 	void Search();
-	void Order();
 	void Move();
+	/// <summary>
+	/// Stateに応じて処理を呼びだす。
+	/// </summary>
+	void Statemanagement();
+	void Taiki_processing();//サボるぜベイベー。
+	void Mukau_processing();//今すぐ向かいます！！隊長！！。
+	void Tuizyuu_processing();//一生ついていきます隊長！！（追従状態。
 
+	/// <summary>
+	/// position取得。
+	/// </summary>
+	/// <returns></returns>
+	CVector3 GetPosition() const
+	{
+		return m_position;
+	}
+	/// <summary>
+	/// Slaceへ与える速度ベクトル。
+	/// </summary>
+	/// <param name="speed"></param>
+	/// <returns></returns>
+	CVector3 Setspeed(CVector3 speed) {
+		m_speed = speed;
+	}
 private:
 	
 	SkinModel m_model;								//スキンモデル。
@@ -27,8 +49,11 @@ private:
 	CVector3 m_position = { 0.0f,  0.0f,  -700.0f };
 	CVector3 m_speed = CVector3::Zero();
 	CVector3 m_kyori = CVector3::Zero();
-	CVector3 m_AlignmentCompletionDistance = { 3.0f,0.0f,3.0f };//整列完了距離。自分がその場所に入った判定に使う。
-	CVector3 m_MasterPosition = CVector3::Zero();
+	CVector3 m_distancejudgment = { 65.0f,  0.0f,  65.0f };//距離判定、ぶつかったかどうかの判定に使う。
+	CVector3 m_alignmentcompletiondistance = { 3.0f,0.0f,3.0f };//整列完了距離。自分がその場所に入った判定に使う。
+	CVector3 m_masterposition = CVector3::Zero();
+
+	float m_friction = 0.95f;//摩擦。
 	//スライム状態管理。
 	SuraimuState state = Taiki;
 	int m_SpeedMagnification = 500; //スピード倍率。

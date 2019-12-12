@@ -8,11 +8,18 @@ public:
 	void Update();
 	void Render();
 	/// <summary>
-	/// 並ぶ列の番号をセットする
+	/// 並ぶ列の番号をセットする。
 	/// </summary>
 	/// <param name="set">自分のNum</param>
 	void SetNum(int set) {
-		m_Num = set;
+		m_num = set;
+	}
+	/// <summary>
+	/// 並ぶ列の最大番号をセットする。
+	/// </summary>
+	/// <param name="set">最大数</param>
+	void SetMaxNum(int set) {
+		m_maxnum = set;
 	}
 	/// <summary>
 	/// 追従している（プレイヤー）のポジション
@@ -20,6 +27,13 @@ public:
 	/// <param name="position"></param>
 	void SetTargetPosition(CVector3 position) {
 		m_targetposition = position;
+	}
+	/// <summary>
+	/// positionセット、成功すれば↑いらない
+	/// </summary>
+	/// <param name="position"></param>
+	void Setposition(CVector3 position) {
+		m_position = position;
 	}
 	/// <summary>
 	/// このポイントに向かって進んでる奴がいるかどうかの結果を返す。
@@ -58,9 +72,12 @@ public:
 	}
 private:
 	
-	int m_Num;//ポイントナンバー。
+	int m_num;//ポイントナンバー。
+	int m_maxnum = 50;//最大ナンバー。
 	CVector3 m_position;//自分のポジション。
 	CVector3 m_targetposition;//追従するターゲット（プレイヤー）ポジション。
+	CVector3 center = CVector3::Zero();//中心を取得して保持しておく。
+	CQuaternion m_rotation = CQuaternion::Identity();//回転。
 	bool Reservation = false;//このポイントにSlaveが向かっている予約。
 	bool Stay = false;//このポイントにいる。
 	//テストよう表示スライム。

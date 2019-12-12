@@ -81,7 +81,7 @@ void tsCamera::Move()
 	}
 
 	//ターゲット座標の取得。
-	m_target = Game::GetInstance()->m_player->GetPosition();
+	m_target = Game::GetInstance()->m_player->Getposition();
 
 	//追従。
 	m_position = m_target + m_toCameraPos;

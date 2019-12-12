@@ -33,7 +33,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理エンジン系更新。
 		g_physics.Update();
 		//Debug用当たり判定可視化。
-		g_physics.DebugWireDraw();
+		//g_physics.DebugWireDraw();
 
 		//描画終了。
 		g_graphicsEngine->EndRender();
