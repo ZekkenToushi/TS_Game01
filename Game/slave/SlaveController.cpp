@@ -1,9 +1,9 @@
 /*!
-* @brief	キャラクタのコリジョンコントロール。
+* @brief	Slave用のコリジョンコントロール。
 */
 
 #include "stdafx.h"
-#include "character/CharacterController.h"
+#include "SlaveController.h"
 #include "Physics/CollisionAttr.h"
 
 
@@ -14,7 +14,7 @@ namespace {
 	{
 		bool isHit = false;									//衝突フラグ。
 		CVector3 hitPos = CVector3(0.0f, -FLT_MAX, 0.0f);	//衝突点。
-		CVector3 startPos = CVector3::Zero();					//レイの始点。
+		CVector3 startPos = CVector3::Zero();				//レイの始点。
 		CVector3 hitNormal = CVector3::Zero();				//衝突点の法線。
 		btCollisionObject* me = nullptr;					//自分自身。自分自身との衝突を除外するためのメンバ。
 		float dist = FLT_MAX;								//衝突点までの距離。一番近い衝突点を求めるため。FLT_MAXは単精度の浮動小数点が取りうる最大の値。
@@ -22,10 +22,11 @@ namespace {
 															//衝突したときに呼ばれるコールバック関数。
 		virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 		{
+
 			if (convexResult.m_hitCollisionObject == me
-				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character
-				) {
-				//自分に衝突した。or キャラクタ属性のコリジョンと衝突した。
+				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Slave
+				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character) {
+				//自分に衝突した。or 地面に衝突した。
 				return 0.0f;
 			}
 			//衝突点の法線を引っ張ってくる。
@@ -67,8 +68,8 @@ namespace {
 		{
 			if (convexResult.m_hitCollisionObject == me
 				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Slave
-			) {
-				//自分に衝突した。or 地面に衝突した or スライム
+				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character) {
+				//自分に衝突した。or 地面に衝突した。
 				return 0.0f;
 			}
 			//衝突点の法線を引っ張ってくる。
@@ -76,9 +77,7 @@ namespace {
 			hitNormalTmp.Set(convexResult.m_hitNormalLocal);
 			//上方向と衝突点の法線のなす角度を求める。
 			float angle = fabsf(acosf(hitNormalTmp.Dot(CVector3::Up())));
-			if (angle >= CMath::PI * 0.3f		//地面の傾斜が54度以上なので壁とみなす。
-				|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character	//もしくはコリジョン属性がキャラクタなので壁とみなす。
-				) {
+			if (angle >= CMath::PI * 0.3f) {
 				isHit = true;
 				CVector3 hitPosTmp;
 				hitPosTmp.Set(convexResult.m_hitPointLocal);
@@ -100,7 +99,7 @@ namespace {
 }
 
 
-void CharacterController::Init(float radius, float height, const CVector3& position)
+void SlaveController::Init(float radius, float height, const CVector3& position)
 {
 	m_position = position;
 	//コリジョン作成。
@@ -115,14 +114,14 @@ void CharacterController::Init(float radius, float height, const CVector3& posit
 	m_rigidBody.Create(rbInfo);
 	btTransform& trans = m_rigidBody.GetBody()->getWorldTransform();
 	//剛体の位置を更新。 + radius + height /2はプレイヤーの足元に調整するため。
-	trans.setOrigin(btVector3(position.x, position.y + radius + height /2, position.z));
+	trans.setOrigin(btVector3(position.x, position.y + radius + height / 2, position.z));
 	//@todo 未対応。trans.setRotation(btQuaternion(rotation.x, rotation.y, rotation.z));
-	m_rigidBody.GetBody()->setUserIndex(enCollisionAttr_Character);
+	m_rigidBody.GetBody()->setUserIndex(enCollisionAttr_Slave);
 	m_rigidBody.GetBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
 	g_physics.AddRigidBody(m_rigidBody);
 
 }
-const CVector3& CharacterController::Execute(float deltaTime, CVector3& moveSpeed)
+const CVector3& SlaveController::Execute(float deltaTime, CVector3& moveSpeed)
 {
 	if (moveSpeed.y > 0.0f) {
 		//吹っ飛び中にする。
@@ -135,7 +134,7 @@ const CVector3& CharacterController::Execute(float deltaTime, CVector3& moveSpee
 	CVector3 addPos = moveSpeed;
 	addPos *= deltaTime;
 	nextPosition += addPos;
-	
+
 	CVector3 originalXZDir = addPos;
 	originalXZDir.y = 0.0f;
 	originalXZDir.Normalize();
@@ -265,7 +264,7 @@ const CVector3& CharacterController::Execute(float deltaTime, CVector3& moveSpee
 		callback.me = m_rigidBody.GetBody();
 		callback.startPos.Set(start.getOrigin());
 		//衝突検出。
-		if(fabsf(endPos.y - callback.startPos.y) > FLT_EPSILON){
+		if (fabsf(endPos.y - callback.startPos.y) > FLT_EPSILON) {
 			g_physics.ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
 			if (callback.isHit) {
 				//当たった。
@@ -295,8 +294,7 @@ const CVector3& CharacterController::Execute(float deltaTime, CVector3& moveSpee
 /*!
 * @brief	死亡したことを通知。
 */
-void CharacterController::RemoveRigidBoby()
+void SlaveController::RemoveRigidBoby()
 {
 	g_physics.RemoveRigidBody(m_rigidBody);
 }
-

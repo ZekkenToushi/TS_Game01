@@ -23,8 +23,10 @@ void tsCamera::Update()
 	//行目のカメラの右方方向をSet。
 	m_right.Set(viewMatrix.m[0][0], viewMatrix.m[0][1], viewMatrix.m[0][2]);
 
-	//Moveの更新。
+	//更新。
 	Move();
+	Follow();
+	Distance();
 
 	//メインカメラに注視点と視点を設定する。
 	//カメラターゲットを常にプレイヤーに
@@ -56,6 +58,21 @@ void tsCamera::Move()
 		qRot.Multiply(m_toCameraPos);
 	}
 
+	
+
+}
+
+void tsCamera::Follow()
+{
+	//ターゲット座標の取得。
+	m_target = Game::GetInstance()->m_player->GetPosition();
+
+	//追従。
+	m_position = m_target + m_toCameraPos;
+}
+
+void tsCamera::Distance()
+{
 	//Lボタンでプレイヤーとの距離を近中遠にする。
 	if (g_pad->IsTrigger(enButtonLB1)) {
 		//カメラ前ベクトル取得。
@@ -77,13 +94,5 @@ void tsCamera::Move()
 			m_toCameraPos += m_ZoomVector * 2;
 			Zoom = Zoom00;
 		}
-		
 	}
-
-	//ターゲット座標の取得。
-	m_target = Game::GetInstance()->m_player->Getposition();
-
-	//追従。
-	m_position = m_target + m_toCameraPos;
-
 }

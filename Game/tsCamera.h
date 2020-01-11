@@ -19,6 +19,14 @@ public:
 	/// プレイヤーを中心に移動するカメラ。
 	/// </summary>
 	void Move();
+	/// <summary>
+	/// プレイヤーへの追従。
+	/// </summary>
+	void Follow();
+	/// <summary>
+	/// 焦点への距離。
+	/// </summary>
+	void Distance();
 	/*!
 	* @brief	カメラの座標を設定。
 	*@param[in]	pos		カメラの座標。

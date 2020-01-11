@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Game.h"
 
+
 Player::Player()
 {
 	//cmoファイルの読み込み。
@@ -32,7 +33,9 @@ void Player::Update()
 
 	//ワールド行列の更新。
 	m_model.UpdateWorldMatrix(m_position, m_rotation, CVector3::One());
+#ifdef USE_MARKER
 	TEST.UpdateWorldMatrix(m_centerrow, m_rotation, CVector3::One());
+#endif
 }
 void Player::Render()
 {
@@ -40,10 +43,12 @@ void Player::Render()
 		g_camera3D.GetViewMatrix(), 
 		g_camera3D.GetProjectionMatrix()
 	);
+#ifdef USE_MARKER
 	TEST.Draw(
 		g_camera3D.GetViewMatrix(),
 		g_camera3D.GetProjectionMatrix()
 	);
+#endif
 }
 
 void Player::Move()
@@ -109,7 +114,6 @@ void Player::TracerowManagement()
 	//centerrowを中心とした円状に整列するように。
 	//もし61匹並ぶなら9列。
 		//イメージ↓
-
 	//        P
 	//    〇〇〇〇〇
 	//   〇〇〇〇〇〇
@@ -126,7 +130,7 @@ void Player::TracerowManagement()
 		//半分より下の列。
 		if (j > (m_column / 2)) {
 			//Z軸。kokodake
-			m_syakankyori.z = m_basicsyakankyori * (j - m_columnhalf) * -1.0f;
+			m_seatPos.z = m_syakankyori * (j - m_columnhalf) * -1.0f;
 			for (int i = 0;i < m_numberfirstrow + (m_columnhalf*2 - j);//その列の行分回す m_columnhalf*2注意（後半。
 				i++) {
 				Gyouseiretu(j,i);
@@ -134,15 +138,19 @@ void Player::TracerowManagement()
 		}
 		else {
 			//Z軸。
-			m_syakankyori.z = m_basicsyakankyori * (m_columnhalf - j);
+			m_seatPos.z = m_syakankyori * (m_columnhalf - j);
 			//始めは5匹並べるためはじめは5。
 			for (int i = 0;i < j + m_numberfirstrow;//その列の行分回す（前半+真ん中。
 				i++) {
 				Gyouseiretu(j, i);
 			}
 		}
-		m_syakankyori = CVector3::Zero();
+		m_seatPos = CVector3::Zero();
 	}
+
+	//軍隊（中心）からプレイヤーへのベクトルを求めておく（軍隊回転で使う）。
+	m_rowForward = m_position - m_centerrow;
+
 	//カウントリセット。
 	m_rowcount = 0;
 	//もしプレイヤーとcenterrowの距離がm_centerrowdistance以下になったら追いかけてくるようにする。
@@ -165,57 +173,71 @@ void Player::Gyouseiretu(int j, int i)
 	if (j % 2 == 0) {
 		//一回目だけ中心
 		if (i == 0) {
-			TracerowSet(m_rowcount, m_centerrow + m_syakankyori);
+			TracerowSet(m_rowcount, m_centerrow + m_seatPos);
 			m_rowcount++;
 		}
 		//二回目以降は右左と配置していく。
 		else if (m_right == true) {//右
-			m_syakankyori.x += m_basicsyakankyori;
-			TracerowSet(m_rowcount, m_centerrow + m_syakankyori);
+			m_seatPos.x += m_syakankyori;
+			TracerowSet(m_rowcount, m_centerrow + m_seatPos);
 			m_rowcount++;
 			m_right = false;
 		}
 		else {//左
-			m_syakankyori.x = m_syakankyori.x*-1.0;
-			TracerowSet(m_rowcount, m_centerrow + m_syakankyori);
+			m_seatPos.x = m_seatPos.x*-1.0;
+			TracerowSet(m_rowcount, m_centerrow + m_seatPos);
 			m_rowcount++;
 			m_right = true;
 			//元に戻す。
-			m_syakankyori.x = m_syakankyori.x*-1.0;
+			m_seatPos.x = m_seatPos.x*-1.0;
 		}
 	}
 	//偶数行。
 	else {
 		if (i == 0) {
-			m_syakankyori.x -= m_basicsyakankyori/2;
+			m_seatPos.x -= m_syakankyori /2;
 		}
 		//右左と配置していく。
 		if (m_right == true) {//右
-			m_syakankyori.x += m_basicsyakankyori;
-			TracerowSet(m_rowcount, m_centerrow + m_syakankyori);
+			m_seatPos.x += m_syakankyori;
+			TracerowSet(m_rowcount, m_centerrow + m_seatPos);
 			m_rowcount++;
 			m_right = false;
 		}
 		else {//左
-			m_syakankyori.x = m_syakankyori.x*-1.0;
-			TracerowSet(m_rowcount, m_centerrow + m_syakankyori);
+			m_seatPos.x = m_seatPos.x*-1.0;
+			TracerowSet(m_rowcount, m_centerrow + m_seatPos);
 			m_rowcount++;
 			m_right = true;
 			//元に戻す。
-			m_syakankyori.x = m_syakankyori.x*-1.0;
+			m_seatPos.x = m_seatPos.x*-1.0;
 		}
 	}
 }
 
+CVector3 Player::TracerowRotation(CVector3 position)
+{
+	//列の前方向を合成。
+	float Rot = atan2(m_rowForward.x, m_rowForward.z);
+	//m_seatPosを列の前方向に向くように回転させる。
+	CVector3 toCenter = position - m_centerrow;
+	CQuaternion qRot;
+	qRot.SetRotation(CVector3::AxisY(), Rot);
+	qRot.Multiply(toCenter);
+	toCenter = toCenter + m_centerrow;
+	//回転させた位置ベクトルを返す。
+	return toCenter;
+}
+
 void Player::TracerowSet(int num,CVector3 position)
 {
-	
 	Tracerow* m_narabe = &tracerow[num];
+	//回転処理
+	CVector3 pos = TracerowRotation(position);
 	//NumとPositionセットする。
 	m_narabe->SetNum(num);
-	m_narabe->Setposition(position);
+	m_narabe->Setposition(pos);
 	m_narabe->SetMaxNum(Maxrow);
 	m_narabe->Update();
 	m_narabe->Render();
-	
 }

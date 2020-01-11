@@ -26,7 +26,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -133,6 +133,7 @@
     <ClCompile Include="physics\PhysicsStaticObject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="slave\SlaveController.cpp" />
     <ClCompile Include="slave\SlaveGenerator.cpp" />
     <ClCompile Include="slave\Slave.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -180,6 +181,7 @@
     <ClInclude Include="physics\PhysicsStaticObject.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="slave\SlaveController.h" />
     <ClInclude Include="slave\SlaveGenerator.h" />
     <ClInclude Include="slave\Slave.h" />
     <ClInclude Include="stdafx.h" />

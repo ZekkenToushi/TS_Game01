@@ -121,6 +121,7 @@
     </ClCompile>
     <ClCompile Include="slave\SlaveGenerator.cpp" />
     <ClCompile Include="slave\Slave.cpp" />
+    <ClCompile Include="slave\SlaveController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -219,6 +220,7 @@
     </ClInclude>
     <ClInclude Include="slave\SlaveGenerator.h" />
     <ClInclude Include="slave\Slave.h" />
+    <ClInclude Include="slave\SlaveController.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

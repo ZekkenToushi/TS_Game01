@@ -27,6 +27,10 @@ public:
 	/// <param name="Tyousei"></param>
 	void Gyouseiretu(int j,int i);
 	/// <summary>
+	/// Tracerowの回転,プレイヤーの回転に合わせて列も回転する。//回転させた位置ベクトルを返す。
+	/// </summary>
+	CVector3 TracerowRotation(CVector3 position);
+	/// <summary>
 	/// 指定したrowを作る。
 	/// 例えば50個のSlaveが並べる行列を作るには 50回 (0～49のnumとpositionを指定して)この関数を呼べば作れる。
 	/// </summary>
@@ -35,11 +39,11 @@ public:
 	void TracerowSet(int num, CVector3 position);
 
 	
-	CVector3 Getposition() const
+	CVector3 GetPosition() const
 	{
 		return m_position;
 	}
-	CVector3 Getspeed() const
+	CVector3 GetSpeed() const
 	{
 		return m_speed;
 	}
@@ -47,7 +51,7 @@ public:
 	{
 		return m_rotation;
 	}
-	int Getrowcount() {
+	int GetMaxrow() {
 		return Maxrow;
 	}
 	Tracerow* Gettracerow(int num) {
@@ -63,13 +67,16 @@ private:
 	float m_playerforward = 0.0f;//プレイヤーの前方向。
 	float m_playerside = 0.0f;//プレイヤーの横方向。
 	float m_friction = 0.95f;//摩擦。
+	//Slave系。
+	
 	//tracerow系。
 	CVector3 m_centerrow = CVector3::Zero();//行列の中心。ここを中心にSlave達は整列する。
-	CVector3 m_syakankyori = CVector3::Zero();//行列を作る際席同士の距離調整に使用。
+	CVector3 m_rowForward = CVector3::Zero();//行列の前方向。（プレイヤーへのベクトル）。
+	CVector3 m_seatPos = CVector3::Zero();//行列の中心からそれぞれのポイントへのベクトル。行列を作る際距離調整に使用。
 	int m_numberfirstrow = 5;//一行目の人数。
 	int m_column = 9;//列の数。
 	int m_columnhalf = 4;//列の数の半分。
-	float m_basicsyakankyori = 70.0f;//基本的な車間距離。
+	float m_syakankyori = 70.0f;//基本的な車間距離。
 	float m_centerrowdistance = 350.0f;//隊列の中心とプレイヤーとの距離。
 	static constexpr int Maxrow = 61;//この数だけ↓配列作る。
 	Tracerow tracerow[Maxrow];//Slaveが並ぶ列配列。
