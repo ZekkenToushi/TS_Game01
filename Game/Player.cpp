@@ -79,9 +79,27 @@ void Player::Move()
 	if (g_pad->GetLStickYF() == 0.0f) {
 		m_speed.z = 0.0f;
 	}*/
-	//ジャンプ。
-	if (g_pad->IsPress(enButtonB)) {
+
+	//ジャンプ判定。
+	if (g_pad->IsTrigger(enButtonY)&&
+		m_isJump == false) {
+		m_isJump = true;
+	}
+	//ジャンプ加速中。
+	if (m_isJump == true) {
 		m_speed.y += 2000.0f;
+		m_jumpCount++;
+		//ジャンプ加速中2。
+		if (m_jumpCount > 5.0f) {
+			m_speed.y -= 500.0f;
+			//ジャンプ加速終了または地面についたならばリセット。
+			if (m_jumpCount > 10.0f
+				//||m_charaCon.IsOnGround()
+				) {
+				m_jumpCount = 0.0f;
+				m_isJump = false;
+			}
+		}
 	}
 	//摩擦計算。
 	m_speed = m_speed * m_friction;

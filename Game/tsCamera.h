@@ -79,8 +79,11 @@ protected:
 	CVector3	m_target;							//!<カメラの中止点。
 	CVector3	m_forward = CVector3::Front();		//!<カメラの前方。
 	CVector3    m_right = CVector3::Right();		//!<カメラの右。
-	CVector3	m_toCameraPos 
-		= { 0.0f, 100.0f, 800.0f };					//カメラ回転移動に使用。
+	CVector3	m_toCameraPos
+		= { 0.0f, 100.0f, 800.0f };					//カメラからターゲットへのベクトル。
+	CVector3	m_restriction 
+		= { 200.0f,0.0f,200.0f };					//カメラ移動制限。
+	CVector3	m_oldtoCameraPos;					//ワンフレーム前のカメラ位置。
 	CVector3	m_ZoomVector;						//カメラ拡大調整ベクトル。
 	CMatrix		m_viewMatrix;						//!<ビュー行列。
 	CMatrix		m_projectionMatrix;					//!<プロジェクション行列。

@@ -70,6 +70,7 @@ private:
 	CVector3 m_masterposition = CVector3::Zero();
 	CVector3 m_force = CVector3::Zero();//重なってしまった時の離れる力。
 	float m_friction = 0.95f;//摩擦。
+	float m_personalSpace = 50.0f;//重なってしまった時の離れ始める距離。
 	int m_mynumber = 0;//自分のナンバー。
 	//スライム状態管理。
 	SuraimuState state = Taiki;

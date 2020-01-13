@@ -67,6 +67,8 @@ private:
 	float m_playerforward = 0.0f;//プレイヤーの前方向。
 	float m_playerside = 0.0f;//プレイヤーの横方向。
 	float m_friction = 0.95f;//摩擦。
+	float m_jumpCount = 0.0f;
+	bool m_isJump = false;
 	//Slave系。
 	
 	//tracerow系。

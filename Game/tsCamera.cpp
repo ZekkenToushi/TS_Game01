@@ -5,6 +5,8 @@
 tsCamera::tsCamera()
 {
 	m_position.Set(m_toCameraPos);
+	//セーブ。
+	m_oldtoCameraPos = m_toCameraPos;
 }
 
 
@@ -24,8 +26,8 @@ void tsCamera::Update()
 	m_right.Set(viewMatrix.m[0][0], viewMatrix.m[0][1], viewMatrix.m[0][2]);
 
 	//更新。
-	Move();
 	Follow();
+	Move();
 	Distance();
 
 	//メインカメラに注視点と視点を設定する。
@@ -39,6 +41,16 @@ void tsCamera::Update()
 
 void tsCamera::Move()
 {
+	//可動制限。ターゲットとの距離が一定以下ならば
+	CVector3 kyori = m_position - m_target;
+	if (fabs(kyori.x) < m_restriction.x &&
+		fabs(kyori.z) < m_restriction.z) {
+		//位置を押し戻す。
+		m_toCameraPos = m_oldtoCameraPos;
+	}
+	//セーブ。
+	m_oldtoCameraPos = m_toCameraPos;
+
 	//パッドの入力を使ってカメラを回す。
 	{
 		//パッドの入力。
