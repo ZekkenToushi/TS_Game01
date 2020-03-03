@@ -123,6 +123,7 @@
     <ClCompile Include="Light\Light.cpp" />
     <ClCompile Include="Light\LightConstantBuffer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Marker.cpp" />
     <ClCompile Include="math\kMath.cpp" />
     <ClCompile Include="math\Matrix.cpp" />
     <ClCompile Include="math\Vector.cpp" />
@@ -142,6 +143,7 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Tracerow.cpp" />
+    <ClCompile Include="TracerowManager.cpp" />
     <ClCompile Include="tsCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +171,7 @@
     <ClInclude Include="level\MapChip.h" />
     <ClInclude Include="Light\Light.h" />
     <ClInclude Include="Light\LightConstantBuffer.h" />
+    <ClInclude Include="Marker.h" />
     <ClInclude Include="math\kMath.h" />
     <ClInclude Include="math\Matrix.h" />
     <ClInclude Include="math\Vector.h" />
@@ -187,6 +190,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Tracerow.h" />
+    <ClInclude Include="TracerowManager.h" />
     <ClInclude Include="tsCamera.h" />
   </ItemGroup>
   <ItemGroup>

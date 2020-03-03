@@ -46,7 +46,7 @@ void Slave::Render()
 
 void Slave::Search()
 {
-	//命令判定。kari
+	//命令判定。仮
 	if (g_pad->IsPress(enButtonX)&&
 		state != Tuizyuu) {
 		state = Mukau;
@@ -61,19 +61,21 @@ void Slave::Search()
 void Slave::Move()
 {
 	//一時的重力
-	m_speed.y -= 30.00f;
+	if (m_speed.y > -100.00f) {
+		m_speed.y -= 30.00f;
+	}
 	//摩擦計算。
 	m_speed = m_speed * m_friction;
+
 	////隊長に道を譲れ！！（プレイヤーとぶつかったのでスピードベクトルに影響されるように）。
 	////プレイヤーとのベクトル求めて。
-	//m_masterposition = Game::GetInstance()->m_player->Getposition();
+	//m_masterposition = Game::GetInstance()->m_player->GetPosition();
 	//m_kyori = m_masterposition - m_position;
 	////もしプレイヤーとの距離が一定以下なら（ぶつかっている）。
 	//if (fabs(m_kyori.x) < m_distancejudgment.x&&
 	//	fabs(m_kyori.z) < m_distancejudgment.z) {
 	//	//プレイヤーの移動ベクトルを自分に加算して押し出されるようにする。
 	//	m_speed += Game::GetInstance()->m_player->Getspeed()/3;
-	//
 	//}
 
 	//他のスライムと重なってる場合よける。
@@ -86,19 +88,28 @@ void Slave::Move()
 			if (kyori.Length() < m_personalSpace) {
 				float Leave = m_personalSpace - kyori.Length();
 				kyori.Normalize();
-				m_speed += kyori * Leave;
+				m_speed += kyori * fabs(Leave) *-1.0f;
 			}
 
 		}
 	}
 	//プレイヤーも避ける（↑同じように。
-	
 	CVector3 kyori = Game::GetInstance()->m_player->GetPosition() - m_position;
 	if (kyori.Length() < m_personalSpace) {
 		float Leave = kyori.Length() - m_personalSpace;
 		kyori.Normalize();
 		m_speed += kyori * Leave;
 	}
+
+}
+
+void Slave::Buttobu(CVector3 point)
+{
+	//投げられる準備。
+	m_markpoint = point;
+	//state = Nagerare;
+	//自分が座っていた席を空ける
+
 
 }
 
@@ -166,9 +177,9 @@ void Slave::Mukau_processing()
 	}
 	*/
 	//予約型整列。
-	for (int i = 0; i < Game::GetInstance()->m_player->GetMaxrow(); i++) {
+	for (int i = 0; i < Game::GetInstance()->m_tracerowmanager->GetMaxrow(); i++) {
 		//指定（i）された列のアドレス取得。
-		Tracerow* tracerow = Game::GetInstance()->m_player->Gettracerow(i);
+		Tracerow* tracerow = Game::GetInstance()->m_tracerowmanager->Gettracerow(i);
 
 		//その配列ポイントに自分入れるか調べる。
 		if (tracerow->GetStay() == false//先約がいない。
@@ -194,7 +205,7 @@ void Slave::Mukau_processing()
 			if (fabs(m_kyori.x) < m_alignmentcompletiondistance.x &&
 				fabs(m_kyori.z) < m_alignmentcompletiondistance.z) {
 				//Stayを宣言。
-				tracerow->SetStay(true);
+				tracerow->SetStay(true,m_mynumber);
 				//整列完了しました隊長！！（整列完了したので自分の状態を追従に変える。
 				state = Tuizyuu;
 				//自分が整列完了した場所覚えておく。
@@ -203,7 +214,7 @@ void Slave::Mukau_processing()
 				m_speed = { 0.0f,0.0f,0.0f };
 			}
 			//終了条件。
-			i = Game::GetInstance()->m_player->GetMaxrow();
+			i = Game::GetInstance()->m_tracerowmanager->GetMaxrow();
 		}
 	}
 }
@@ -211,7 +222,7 @@ void Slave::Mukau_processing()
 void Slave::Tuizyuu_processing()
 {
 	//指定された列のアドレス取得。
-	Tracerow* tracerow = Game::GetInstance()->m_player->Gettracerow(m_TracerowNum);
+	Tracerow* tracerow = Game::GetInstance()->m_tracerowmanager->Gettracerow(m_TracerowNum);
 	//列とのベクトル求めて。
 	m_kyori = tracerow->Getposition() - m_position;
 	CVector3 kyoriNormalize = m_kyori;
@@ -227,4 +238,15 @@ void Slave::Tuizyuu_processing()
 		//止まれ。
 		m_speed = { 0.0f,0.0f,0.0f };
 	}
+}
+
+void Slave::Nagerare_processing()
+{
+	
+	
+	m_speed = m_markpoint - m_position;
+
+
+
+
 }

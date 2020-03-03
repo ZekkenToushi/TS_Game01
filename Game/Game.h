@@ -3,10 +3,10 @@
 #include"RenderTarget.h"
 #include"Player.h"
 #include"Field_1.h"
-//#include"Slave.h"
 #include "slave/SlaveGenerator.h"
 #include"tsCamera.h"
 #include"Light/Light.h"
+#include"TracerowManager.h"
 class Game: public IGameObject
 {
 public:
@@ -28,15 +28,16 @@ public:
 	static Game* GetInstance();
 	Player* m_player = nullptr;
 	tsCamera* m_tsCamera = nullptr;
+	Field_1* m_field1 = nullptr;
 	//Slave* m_slave = nullptr;
 	SlaveGenerator* m_slaveganerator = nullptr;
+	TracerowManager* m_tracerowmanager = nullptr;
 private:
-	//シングルトン。
-	static Game* m_instance;
-	
+	void CreateStage0();
+	static Game* m_instance;//シングルトン。
 	RenderTarget m_renderTarget;			//レンダリングターゲット。
-
-	Field_1* m_field1 = nullptr;
+	int Stage = 0;          //ステージ選択用
+	
 	Light* m_light = nullptr;
 };
 

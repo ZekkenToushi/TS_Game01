@@ -5,8 +5,8 @@
 enum SuraimuState {
 	Taiki,//その場に待機。0
 	Mukau,//プレイヤー(列)に向かう。1
-	Tuizyuu//プレイヤーに追従。2
-
+	Tuizyuu,//プレイヤーに追従。2
+	Nagerare//投げられている 3
 };
 class Slave : public IGameObject
 {
@@ -16,8 +16,10 @@ public:
 	void Update()override;
 	void Render()override;
 	
-	void Search();
+	void Search();//プレイヤーの指示を受け取る
 	void Move();//どの状態でも処理する関数。
+	void Buttobu(CVector3 point);//指定されたとこへ飛びます！
+
 	/// <summary>
 	/// Stateに応じて処理を呼びだす。
 	/// </summary>
@@ -25,7 +27,7 @@ public:
 	void Taiki_processing();//サボるぜベイベー。
 	void Mukau_processing();//今すぐ向かいます！！隊長！！。
 	void Tuizyuu_processing();//一生ついていきます隊長！！（追従状態。
-
+	void Nagerare_processing();//今投げられてます！うぁあああ
 	/// <summary>
 	/// position取得。
 	/// </summary>
@@ -47,7 +49,7 @@ public:
 	/// </summary>
 	/// <param name="speed"></param>
 	/// <returns></returns>
-	CVector3 Setspeed(CVector3 speed) {
+	void Setspeed(CVector3 speed) {
 		m_speed = speed;
 	}
 	/// <summary>
@@ -65,11 +67,12 @@ private:
 	CVector3 m_position = { 0.0f,  0.0f,  -700.0f };
 	CVector3 m_speed = CVector3::Zero();
 	CVector3 m_kyori = CVector3::Zero();
+	CVector3 m_markpoint = CVector3::Zero();//飛ばされた時の落下目標ポイント。
 	CVector3 m_distancejudgment = { 65.0f,  0.0f,  65.0f };//距離判定、ぶつかったかどうかの判定に使う。
 	CVector3 m_alignmentcompletiondistance = { 10.0f,0.0f,10.0f };//整列完了距離。自分がその場所に入った判定に使う。
 	CVector3 m_masterposition = CVector3::Zero();
 	CVector3 m_force = CVector3::Zero();//重なってしまった時の離れる力。
-	float m_friction = 0.95f;//摩擦。
+	float m_friction = 0.98f;//摩擦。
 	float m_personalSpace = 50.0f;//重なってしまった時の離れ始める距離。
 	int m_mynumber = 0;//自分のナンバー。
 	//スライム状態管理。

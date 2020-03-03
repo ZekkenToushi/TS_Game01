@@ -60,9 +60,18 @@ public:
 	/// 着席しました。すでにいると主張するため。
 	/// </summary>
 	/// <param name="posiGetdaze"></param>
-	void SetStay(bool posiGetdaze) {
+	void SetStay(bool posiGetdaze,int num) {
+		m_slavenum = num;
 		Stay = posiGetdaze;
 	}
+	/// <summary>
+	/// m_slavenumを返す。
+	/// </summary>
+	/// <returns></returns>
+	int GetSlaveNum() {
+		return m_slavenum;
+	}
+
 	/// <summary>
 	/// このポイントのポジションを返す。
 	/// </summary>
@@ -74,6 +83,7 @@ private:
 	
 	int m_num;//ポイントナンバー。
 	int m_maxnum = 50;//最大ナンバー。
+	int m_slavenum = 0;//現在この席についているSlaveナンバーを保存。
 	CVector3 m_position;//自分のポジション。
 	CVector3 m_targetposition;//追従するターゲット（プレイヤー）ポジション。
 	CVector3 center = CVector3::Zero();//中心を取得して保持しておく。

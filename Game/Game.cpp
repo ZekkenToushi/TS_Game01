@@ -17,7 +17,27 @@ Game::Game()
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
 	g_camera3D.SetPosition({ 0.0f, 100.0f, 300.0f });
 	
+	//ステージ振り分け。
+	switch (Stage) {
+	case 0:
+		CreateStage0();
+		break;
+	default:
+		CreateStage0();
+	}
 	
+}
+
+
+Game::~Game()
+{
+	m_instance = nullptr;
+	
+	//DeleteGO(m_field1);
+
+}
+
+void Game::CreateStage0() {
 	//フィールドの生成。
 	m_field1 = NewGO<Field_1>();
 	//プレイヤーの更新。
@@ -28,14 +48,8 @@ Game::Game()
 	m_light = NewGO<Light>();
 	//スライムジェネレーターの更新。
 	m_slaveganerator = NewGO<SlaveGenerator>();
-}
-
-
-Game::~Game()
-{
-	m_instance = nullptr;
-
-	//DeleteGO(m_field1);
+	//行列マネージャーの更新。
+	m_tracerowmanager = NewGO<TracerowManager>();
 }
 
 void Game::Update()

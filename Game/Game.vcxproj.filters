@@ -122,6 +122,8 @@
     <ClCompile Include="slave\SlaveGenerator.cpp" />
     <ClCompile Include="slave\Slave.cpp" />
     <ClCompile Include="slave\SlaveController.cpp" />
+    <ClCompile Include="TracerowManager.cpp" />
+    <ClCompile Include="Marker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -221,6 +223,8 @@
     <ClInclude Include="slave\SlaveGenerator.h" />
     <ClInclude Include="slave\Slave.h" />
     <ClInclude Include="slave\SlaveController.h" />
+    <ClInclude Include="TracerowManager.h" />
+    <ClInclude Include="Marker.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
