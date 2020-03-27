@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// Stateに応じて処理を呼びだす。
 	/// </summary>
-	void Statemanagement();
+	void StateManagement();
 	void Taiki_processing();//サボるぜベイベー。
 	void Mukau_processing();//今すぐ向かいます！！隊長！！。
 	void Tuizyuu_processing();//一生ついていきます隊長！！（追従状態。
@@ -64,10 +64,11 @@ private:
 	
 	SkinModel m_model;								//スキンモデル。
 	SlaveController m_slaveCon;					    //Slaveコントローラー。
-	CVector3 m_position = { 0.0f,  0.0f,  -700.0f };
+	CVector3 m_position = { 0.0f,  -500.0f,  -700.0f };
 	CVector3 m_speed = CVector3::Zero();
-	CVector3 m_kyori = CVector3::Zero();
+	float m_gravity = -980.0f; //cm/sec^2
 	CVector3 m_markpoint = CVector3::Zero();//飛ばされた時の落下目標ポイント。
+	CVector3 m_buttobi = CVector3::Zero();//飛ばされた時の落下目標ポイントへのベクトル。
 	CVector3 m_distancejudgment = { 65.0f,  0.0f,  65.0f };//距離判定、ぶつかったかどうかの判定に使う。
 	CVector3 m_alignmentcompletiondistance = { 10.0f,0.0f,10.0f };//整列完了距離。自分がその場所に入った判定に使う。
 	CVector3 m_masterposition = CVector3::Zero();

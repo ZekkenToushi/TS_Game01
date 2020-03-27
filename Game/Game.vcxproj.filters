@@ -124,6 +124,7 @@
     <ClCompile Include="slave\SlaveController.cpp" />
     <ClCompile Include="TracerowManager.cpp" />
     <ClCompile Include="Marker.cpp" />
+    <ClCompile Include="Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="math\Vector.h">
@@ -225,6 +226,7 @@
     <ClInclude Include="slave\SlaveController.h" />
     <ClInclude Include="TracerowManager.h" />
     <ClInclude Include="Marker.h" />
+    <ClInclude Include="Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

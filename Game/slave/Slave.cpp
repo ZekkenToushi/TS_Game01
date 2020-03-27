@@ -26,11 +26,13 @@ Slave::~Slave()
 void Slave::Update()
 {
 	Search();
+	StateManagement();
 	Move();
-	Statemanagement();
+	
 	//キャラコン。
 	m_position = m_slaveCon.Execute(1.0f / 60, m_speed + m_force);
 	m_force *= 0.5f;
+	
 	//ワールド行列の更新。
 	m_model.UpdateWorldMatrix(m_position, CQuaternion::Identity(), CVector3::One());
 }
@@ -61,19 +63,19 @@ void Slave::Search()
 void Slave::Move()
 {
 	//一時的重力
-	if (m_speed.y > -100.00f) {
-		m_speed.y -= 30.00f;
-	}
+	
+	m_speed.y += m_gravity / 60.0f;
+	
 	//摩擦計算。
-	m_speed = m_speed * m_friction;
+	//m_speed = m_speed * m_friction;
 
 	////隊長に道を譲れ！！（プレイヤーとぶつかったのでスピードベクトルに影響されるように）。
 	////プレイヤーとのベクトル求めて。
 	//m_masterposition = Game::GetInstance()->m_player->GetPosition();
-	//m_kyori = m_masterposition - m_position;
+	//CVector3 kyori = m_masterposition - m_position;
 	////もしプレイヤーとの距離が一定以下なら（ぶつかっている）。
-	//if (fabs(m_kyori.x) < m_distancejudgment.x&&
-	//	fabs(m_kyori.z) < m_distancejudgment.z) {
+	//if (fabs(kyori.x) < m_distancejudgment.
+	//	fabs(kyori.z) < m_distancejudgment.z) {
 	//	//プレイヤーの移動ベクトルを自分に加算して押し出されるようにする。
 	//	m_speed += Game::GetInstance()->m_player->Getspeed()/3;
 	//}
@@ -107,13 +109,35 @@ void Slave::Buttobu(CVector3 point)
 {
 	//投げられる準備。
 	m_markpoint = point;
-	//state = Nagerare;
+	m_buttobi = m_markpoint - m_position;
+	//m_buttobi.y = m_markpoint.Length()/2;
+
+	//落下時間。
+	float time = 1.50f;
+	//マーカーと現在位置のy軸差。
+	float y = m_markpoint.y - m_position.y;
+	//y(高さ) =v(初速度)t(時間) - 1/2gt^2　から
+	float init_vy = (y + 0.5f * -m_gravity*(time*time)) / time;
+	//XY軸移動。
+	m_speed.y = init_vy;
+	//XZ軸移動。
+	float vxz = m_buttobi.Length() / time;
+	auto v = m_buttobi;
+	v.y = 0.0f;
+	v.Normalize();
+	v *= vxz;
+	m_speed.x = v.x;
+	m_speed.z = v.z;
+	//ステート変更。
+	state = Nagerare;
 	//自分が座っていた席を空ける
-
-
+	Tracerow* tracerow = Game::GetInstance()->m_tracerowmanager->Gettracerow(m_TracerowNum);
+	
+	tracerow->SetStay(false, m_mynumber);
+	tracerow->SetReservation(false);
 }
 
-void Slave::Statemanagement()
+void Slave::StateManagement()
 {
 	switch (state) {
 	case Taiki://その場に待機。
@@ -125,8 +149,9 @@ void Slave::Statemanagement()
 	case Tuizyuu://列に並んだのでプレイヤーについていく。
 		Tuizyuu_processing();
 		break;
-	//case 3:
-
+	case Nagerare://今僕は投げられています。
+		Nagerare_processing();
+		break;
 	}
 
 }
@@ -152,16 +177,16 @@ void Slave::Mukau_processing()
 		if (tracerow->GetStay() == false//先約がいない。
 			) {
 			//プレイヤーとのベクトル求めて加算。
-			m_kyori = tracerow->Getposition() - m_position;
-			CVector3 kyoriNormalize = m_kyori;
+			CVector3 kyori = tracerow->Getposition() - m_position;
+			CVector3 kyoriNormalize = kyori;
 			kyoriNormalize.y = 0.0f;
 			kyoriNormalize.Normalize();
 			m_speed.x = kyoriNormalize.x * m_SpeedMagnification;
 			m_speed.z = kyoriNormalize.z * m_SpeedMagnification;
 
 			//ほぼそのポイントに行けたので
-			if (fabs(m_kyori.x) < m_alignmentcompletiondistance.x &&
-				fabs(m_kyori.z) < m_alignmentcompletiondistance.z) {
+			if (fabs(kyori.x) < m_alignmentcompletiondistance.x &&
+				fabs(kyori.z) < m_alignmentcompletiondistance.z) {
 				//Stayを宣言。
 				tracerow->SetStay(true);
 				//整列完了しました隊長！！（整列完了したので自分の状態を追従に変える。
@@ -194,16 +219,16 @@ void Slave::Mukau_processing()
 		//自分の予約席ならば直行。
 		if (m_TracerowNum == i) {
 			//プレイヤーとのベクトル求めて加算。プレイヤー追従。
-			m_kyori = tracerow->Getposition() - m_position;
-			CVector3 kyoriNormalize = m_kyori;
+			CVector3 kyori = tracerow->Getposition() - m_position;
+			CVector3 kyoriNormalize = kyori;
 			kyoriNormalize.y = 0.0f;
 			kyoriNormalize.Normalize();
 			m_speed.x = kyoriNormalize.x * m_SpeedMagnification;
 			m_speed.z = kyoriNormalize.z * m_SpeedMagnification;
 
 			//ほぼそのポイントに行けたので
-			if (fabs(m_kyori.x) < m_alignmentcompletiondistance.x &&
-				fabs(m_kyori.z) < m_alignmentcompletiondistance.z) {
+			if (fabs(kyori.x) < m_alignmentcompletiondistance.x &&
+				fabs(kyori.z) < m_alignmentcompletiondistance.z) {
 				//Stayを宣言。
 				tracerow->SetStay(true,m_mynumber);
 				//整列完了しました隊長！！（整列完了したので自分の状態を追従に変える。
@@ -224,8 +249,8 @@ void Slave::Tuizyuu_processing()
 	//指定された列のアドレス取得。
 	Tracerow* tracerow = Game::GetInstance()->m_tracerowmanager->Gettracerow(m_TracerowNum);
 	//列とのベクトル求めて。
-	m_kyori = tracerow->Getposition() - m_position;
-	CVector3 kyoriNormalize = m_kyori;
+	CVector3 kyori = tracerow->Getposition() - m_position;
+	CVector3 kyoriNormalize = kyori;
 	kyoriNormalize.y = 0.0f;
 	kyoriNormalize.Normalize();
 	//加算プレイヤー追従。
@@ -233,8 +258,8 @@ void Slave::Tuizyuu_processing()
 	m_speed.z = kyoriNormalize.z * m_SpeedMagnification;
 
 	//ほぼそのポイントに行けたので。
-	if (fabs(m_kyori.x) < m_alignmentcompletiondistance.x &&
-		fabs(m_kyori.z) < m_alignmentcompletiondistance.z) {
+	if (fabs(kyori.x) < m_alignmentcompletiondistance.x &&
+		fabs(kyori.z) < m_alignmentcompletiondistance.z) {
 		//止まれ。
 		m_speed = { 0.0f,0.0f,0.0f };
 	}
@@ -242,11 +267,13 @@ void Slave::Tuizyuu_processing()
 
 void Slave::Nagerare_processing()
 {
-	
-	
-	m_speed = m_markpoint - m_position;
-
-
-
-
+	CVector3 kyori = m_markpoint - m_position;
+	//距離判定（落下地点にいるかどうか）
+	if (fabs(kyori.x) < m_alignmentcompletiondistance.x &&
+		fabs(kyori.z) < m_alignmentcompletiondistance.z){
+		//速度リセット。
+		m_speed = CVector3::Zero();
+		//無事落下できたので待機状態へ
+		state = Taiki;
+	}
 }
