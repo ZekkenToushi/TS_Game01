@@ -63,7 +63,6 @@ void Slave::Search()
 void Slave::Move()
 {
 	//一時的重力
-	
 	m_speed.y += m_gravity / 60.0f;
 	
 	//摩擦計算。

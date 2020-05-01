@@ -7,6 +7,7 @@
 #include"tsCamera.h"
 #include"Light/Light.h"
 #include"TracerowManager.h"
+#include"Enemy/EnemyGenerator.h"
 class Game: public IGameObject
 {
 public:
@@ -32,6 +33,7 @@ public:
 	//Slave* m_slave = nullptr;
 	SlaveGenerator* m_slaveganerator = nullptr;
 	TracerowManager* m_tracerowmanager = nullptr;
+	EnemyGenerator* m_enemygenerator = nullptr;
 private:
 	void CreateStage0();
 	static Game* m_instance;//シングルトン。

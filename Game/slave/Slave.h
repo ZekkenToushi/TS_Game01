@@ -69,7 +69,7 @@ private:
 	float m_gravity = -980.0f; //cm/sec^2
 	CVector3 m_markpoint = CVector3::Zero();//飛ばされた時の落下目標ポイント。
 	CVector3 m_buttobi = CVector3::Zero();//飛ばされた時の落下目標ポイントへのベクトル。
-	CVector3 m_distancejudgment = { 65.0f,  0.0f,  65.0f };//距離判定、ぶつかったかどうかの判定に使う。
+	CVector3 m_distancejudegment = { 65.0f,  0.0f,  65.0f };//距離判定、ぶつかったかどうかの判定に使う。
 	CVector3 m_alignmentcompletiondistance = { 10.0f,0.0f,10.0f };//整列完了距離。自分がその場所に入った判定に使う。
 	CVector3 m_masterposition = CVector3::Zero();
 	CVector3 m_force = CVector3::Zero();//重なってしまった時の離れる力。

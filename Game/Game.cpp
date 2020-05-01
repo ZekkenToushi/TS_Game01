@@ -50,6 +50,8 @@ void Game::CreateStage0() {
 	m_slaveganerator = NewGO<SlaveGenerator>();
 	//行列マネージャーの更新。
 	m_tracerowmanager = NewGO<TracerowManager>();
+	//敵ジェネレーターの更新。
+	m_enemygenerator = NewGO<EnemyGenerator>();
 }
 
 void Game::Update()

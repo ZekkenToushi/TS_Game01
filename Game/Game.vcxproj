@@ -101,7 +101,8 @@
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
     <ClCompile Include="DebugWireframe.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Enemy\EnemyGenerator.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Field_1.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
@@ -150,7 +151,8 @@
   <ItemGroup>
     <ClInclude Include="character\CharacterController.h" />
     <ClInclude Include="DebugWireframe.h" />
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy\EnemyGenerator.h" />
+    <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Field_1.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObjectManager.h" />
