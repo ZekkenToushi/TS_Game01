@@ -21,6 +21,7 @@ Slave::Slave()
 
 Slave::~Slave()
 {
+	RequestDelete();
 }
 
 void Slave::Update()
@@ -57,14 +58,18 @@ void Slave::Search()
 		state = Taiki;
 		m_speed = CVector3::Zero();
 	}
+
+	
 }
 
 
 void Slave::Move()
 {
-	//一時的重力
-	m_speed.y += m_gravity / 60.0f;
-	
+	//重力が一定以上かかると床を突き抜ける為。
+	if (m_speed.y > -1000.0f) {
+		//重力。
+		m_speed.y += m_gravity / 60.0f;
+	}
 	//摩擦計算。
 	//m_speed = m_speed * m_friction;
 
@@ -81,7 +86,7 @@ void Slave::Move()
 
 	//他のスライムと重なってる場合よける。
 	//現在召喚している数分for文を回す。
-	for (int i = 0;i < Game::GetInstance()->m_slaveganerator->GetSlaveCount();i++) {
+	for (int i = 1;i < Game::GetInstance()->m_slaveganerator->GetSlaveCount();i++) {
 		//自分以外。
 		if (i != m_mynumber) {
 			Slave* slave = Game::GetInstance()->m_slaveganerator->GetSlave(i);
@@ -101,6 +106,11 @@ void Slave::Move()
 		kyori.Normalize();
 		m_speed += kyori * Leave;
 	}
+
+	//死亡判定。
+	if (slave.HP <= 0) {
+		RequestDelete();
+	};
 
 }
 

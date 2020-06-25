@@ -46,5 +46,5 @@ const float FRAME_BUFFER_H = 720.0f;				//フレームバッファの高さ。
 static const int MAX_BONE = 512;	//!<ボーンの最大数。
 
 #ifdef _DEBUG
-	#define USE_MARKER	//定義するとマーカーオブジェクトが表示される。
+	//#define USE_MARKER	//定義するとマーカーオブジェクトが表示される。
 #endif

@@ -236,5 +236,10 @@
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\Field1.fbx" />
     <MeshContentTask Include="Assets\modelData\suraimu01.FBX" />
+    <MeshContentTask Include="Assets\modelData\medamaaka.fbx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\modelData\medamaaka.tks" />
+    <None Include="Assets\modelData\medamaaka.cmo" />
   </ItemGroup>
 </Project>

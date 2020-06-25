@@ -60,7 +60,22 @@ public:
 	CVector3 Addforce(CVector3 force) {
 		m_force += force;
 	}
+	//
+	int GetHP() {
+		return slave.HP;
+	};
+	void AddHP(int hp){
+		slave.HP += hp;
+	}
 private:
+	//パラメータ。
+	struct Parameters {
+		int Max_HP = 10;
+		int HP = Max_HP;
+		int Lv = 1;
+	};
+	struct
+		Parameters slave;
 	
 	SkinModel m_model;								//スキンモデル。
 	SlaveController m_slaveCon;					    //Slaveコントローラー。

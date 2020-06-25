@@ -35,9 +35,9 @@ void SlaveGenerator::Decision()
 	if (m_decision == true) {
 
 		//<Slave>ê∂ê¨ÅB
+		m_slavecount++;
 		m_slave[m_slavecount] = NewGO<Slave>();
 		m_slave[m_slavecount]->SetNumber(m_slavecount);
-		m_slavecount++;
 		m_decision = false;
 
 	}

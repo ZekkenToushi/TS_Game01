@@ -16,6 +16,6 @@ private:
 	Enemy* m_enemy[Max];
 	int m_enemycount = 0;//現在召喚したenemyの数。
 	//初期ポジションとして渡す
-	CVector3 m_position0 = { 0.0f,  -500.0f,  -1000.0f };
+	CVector3 m_position0 = { 0.0f,  -600.0f,  -3000.0f };
 };
 
